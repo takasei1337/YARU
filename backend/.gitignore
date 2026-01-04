@@ -1,0 +1,61 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+
+# --- Virtual Environments ---
+venv/
+env/
+.venv/
+.env
+
+# --- Distribution / Builds ---
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# --- Unit Test / Coverage ---
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# --- Type Checking ---
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# --- Database (SQLite - Local dev) ---
+*.sqlite3
+*.db
+
+# --- AI Models / Large Files ---
+*.pt
+*.pth
+*.bin
+*.onnx
+models/
+!models/.gitkeep
+
+# --- Celery ---
+celerybeat-schedule
+celerybeat.pid
