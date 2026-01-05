@@ -56,28 +56,57 @@ Dự án YARU là một ứng dụng học tiếng Nhật theo phong cách "vừ
 - **Python** (3.10+)
 - **Docker** (Tùy chọn, để chạy full stack với Database)
 
-### 1. Cài đặt Backend (FastAPI)
+### 1. Cài đặt và Chạy với Docker (Khuyên dùng)
 
+Đây là cách nhanh nhất để chạy toàn bộ hệ thống (Frontend + Backend + Database).
+
+**Yêu cầu:** Đã cài đặt [Docker Desktop](https://www.docker.com/products/docker-desktop/) và đang bật.
+
+#### Bước 1: Cấu hình môi trường
+Copy file mẫu và tạo file `.env` cho backend:
 ```bash
-cd backend
-
-# Tạo môi trường ảo (Virtual Environment)
-python -m venv venv
-
-# Kích hoạt (Windows)
-.\venv\Scripts\activate
-# Kích hoạt (Mac/Linux)
-# source venv/bin/activate
-
-# Cài đặt thư viện dependencies
-pip install -r requirements.txt
-
-# Chạy Server
-uvicorn main:app --reload
+# Tại thư mục gốc hoặc backend/
+cp backend/.env.example backend/.env
+# Trên Windows CMD: copy backend\.env.example backend\.env
 ```
 
-> Backend sẽ chạy tại: `http://localhost:8000`
-> Tài liệu API (Swagger): `http://localhost:8000/docs`
+#### Bước 2: Khởi chạy
+Tại thư mục gốc của dự án:
+```bash
+docker-compose up -d --build
+```
+Lệnh này sẽ:
+- Start Database PostgreSQL (Port 5432)
+- Start Backend FastAPI (Port 8000)
+
+#### Bước 3: Chạy Database Migration (Lần đầu)
+Sau khi container đã chạy, bạn cần khởi tạo bảng vào Database:
+```bash
+# Tạo migration đầu tiên (nếu chưa có)
+docker-compose exec backend alembic revision --autogenerate -m "Init"
+
+# Chạy migration (cập nhật DB)
+docker-compose exec backend alembic upgrade head
+```
+
+#### Bước 4: Kiểm tra
+- **Backend API**: [http://localhost:8000](http://localhost:8000)
+- **API Docs**: [http://localhost:8000/docs](http://localhost:8000/docs)
+- **Health Check**: [http://localhost:8000/api/v1/health/db](http://localhost:8000/api/v1/health/db)
+
+---
+
+### 2. Cài đặt Thủ công (Manual Setup)
+Nếu bạn muốn chạy manual từng phần (ví dụ Frontend riêng):
+
+#### Backend (FastAPI)
+```bash
+cd backend
+python -m venv venv
+.\venv\Scripts\activate
+pip install -r requirements.txt
+uvicorn main:app --reload
+```
 
 ### 2. Cài đặt Frontend (Next.js)
 
